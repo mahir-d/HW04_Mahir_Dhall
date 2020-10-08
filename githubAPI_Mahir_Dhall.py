@@ -17,7 +17,8 @@ def get_repo_info(user_id: str) -> int:
         raise TypeError('Error: user_iduser_id should be of type str')
     if(len(user_id) == 0):
         raise ValueError('Error: user_id should not be an empty string')
-    output = requests.get(f"https://api.github.com/users/{user_id}/repos")
+    output = fetch_user_repo(user_id)
+    # output = requests.get(f"https://api.github.com/users/{user_id}/repos")
     if output.status_code != 200:
         raise ValueError(
             f"{user_id} is not a valid github user id, please check")
@@ -44,6 +45,10 @@ def get_commits(user_id: str, repo: str) -> int:
         f"https://api.github.com/repos/{user_id}/{repo}/commits")
     commit = output.json()
     return (len(commit))
+
+
+def fetch_user_repo(user_id):
+    return requests.get(f"https://api.github.com/users/{user_id}/repos")
 
 
 def get_input() -> None:
